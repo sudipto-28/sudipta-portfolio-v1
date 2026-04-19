@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display, DM_Mono, DM_Sans } from "next/font/google";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -25,7 +26,7 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   title: "Sudipta Mondal — Senior Software Engineer & Full-Stack Architect",
   description:
-    "Senior Software Engineer with 8+ years building SaaS platforms, real-time systems, and cloud infrastructure. Available for senior roles, SaaS builds, and Fractional CTO engagements.",
+    "Senior Software Engineer with 8+ years building SaaS platforms, real-time systems, and cloud infrastructure. Available for senior roles, SaaS builds, and project management engagements.",
   keywords: [
     "Senior Software Engineer",
     "Full-Stack Architect",
@@ -35,7 +36,7 @@ export const metadata: Metadata = {
     "NestJS",
     "Node.js",
     "AWS",
-    "Fractional CTO",
+    "Project Management",
     "Sudipta Mondal",
   ],
   authors: [{ name: "Sudipta Mondal" }],

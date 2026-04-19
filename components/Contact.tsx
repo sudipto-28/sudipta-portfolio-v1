@@ -1,6 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import {
+  FORM_SERVICE_OPTIONS,
+  RESUME_URL,
+  SERVICE_SELECT_EVENT,
+} from "@/components/siteData";
 
 export default function Contact() {
   return (
@@ -61,7 +66,7 @@ export default function Contact() {
               lineHeight: 1.7,
             }}
           >
-            Available for senior roles, SaaS builds &amp; Fractional CTO
+            Available for senior roles, SaaS builds &amp; Project Management
           </div>
         </div>
 
@@ -108,13 +113,13 @@ export default function Contact() {
               }}
             >
               Available for senior engineering roles, SaaS builds, DevOps
-              setups, and Fractional CTO engagements. Let&apos;s architect something
+              setups, and project management engagements. Let&apos;s architect something
               that lasts.
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               <InfoRow label="Email">
                 <a
-                  href="mailto:sudiptamondal.dev@gmail.com"
+                  href="mailto:contact@devsudipto.com"
                   style={{
                     color: "var(--ink)",
                     textDecoration: "none",
@@ -132,12 +137,12 @@ export default function Contact() {
                     el.style.borderColor = "";
                   }}
                 >
-                  sudiptamondal.dev@gmail.com
+                  contact@devsudipto.com
                 </a>
               </InfoRow>
               <InfoRow label="GitHub">
                 <a
-                  href="https://github.com/sudiptamondal"
+                  href="https://github.com/sudipto-28"
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
@@ -157,12 +162,12 @@ export default function Contact() {
                     el.style.borderColor = "";
                   }}
                 >
-                  github.com/sudiptamondal
+                  github.com/sudipto-28
                 </a>
               </InfoRow>
               <InfoRow label="LinkedIn">
                 <a
-                  href="https://linkedin.com/in/sudiptamondal"
+                  href="https://www.linkedin.com/in/sudipta-mondal-390ba8153"
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
@@ -182,7 +187,32 @@ export default function Contact() {
                     el.style.borderColor = "";
                   }}
                 >
-                  linkedin.com/in/sudiptamondal
+                  linkedin.com/in/sudipta-mondal-390ba8153
+                </a>
+              </InfoRow>
+              <InfoRow label="Upwork">
+                <a
+                  href="https://www.upwork.com/freelancers/~012e05def915f38212"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    color: "var(--ink)",
+                    textDecoration: "none",
+                    borderBottom: "1px solid var(--border)",
+                    transition: "border-color 0.2s, color 0.2s",
+                  }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLAnchorElement;
+                    el.style.color = "var(--gold)";
+                    el.style.borderColor = "var(--gold)";
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLAnchorElement;
+                    el.style.color = "var(--ink)";
+                    el.style.borderColor = "";
+                  }}
+                >
+                  upwork.com/freelancers/~012e05def915f38212
                 </a>
               </InfoRow>
               <InfoRow label="Status">
@@ -214,8 +244,9 @@ export default function Contact() {
               </InfoRow>
               <InfoRow label="Resume">
                 <a
-                  href="/cv.pdf"
-                  download="Sudipta_Mondal_CV.pdf"
+                  href={RESUME_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   style={{
                     color: "var(--ink)",
                     textDecoration: "none",
@@ -233,7 +264,7 @@ export default function Contact() {
                     el.style.borderColor = "";
                   }}
                 >
-                  Download CV ↓
+                  View CV ↗
                 </a>
               </InfoRow>
             </div>
@@ -286,12 +317,54 @@ function InfoRow({
 
 function ContactForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const [selectedService, setSelectedService] = useState("");
+
+  useEffect(() => {
+    const syncServiceFromUrl = () => {
+      const nextService = new URLSearchParams(window.location.search).get(
+        "service"
+      );
+
+      if (
+        nextService &&
+        FORM_SERVICE_OPTIONS.some((option) => option === nextService)
+      ) {
+        setSelectedService(nextService);
+        return;
+      }
+
+      setSelectedService("");
+    };
+
+    const handleServiceSelected = (event: Event) => {
+      const nextService = (event as CustomEvent<string>).detail;
+      if (FORM_SERVICE_OPTIONS.some((option) => option === nextService)) {
+        setSelectedService(nextService);
+      }
+    };
+
+    syncServiceFromUrl();
+    window.addEventListener(
+      SERVICE_SELECT_EVENT,
+      handleServiceSelected as EventListener
+    );
+    window.addEventListener("popstate", syncServiceFromUrl);
+
+    return () => {
+      window.removeEventListener(
+        SERVICE_SELECT_EVENT,
+        handleServiceSelected as EventListener
+      );
+      window.removeEventListener("popstate", syncServiceFromUrl);
+    };
+  }, []);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("sending");
     setTimeout(() => {
       setStatus("sent");
+      setSelectedService("");
       (e.target as HTMLFormElement).reset();
       setTimeout(() => setStatus("idle"), 5000);
     }, 1200);
@@ -365,17 +438,16 @@ function ContactForm() {
           <select
             name="service"
             required
+            value={selectedService}
+            onChange={(e) => setSelectedService(e.target.value)}
             style={{ ...inputStyle, resize: undefined } as React.CSSProperties}
           >
             <option value="" disabled>Select a service...</option>
-            <option>Full-Stack SaaS Build</option>
-            <option>Backend API &amp; Systems</option>
-            <option>DevOps &amp; Cloud Setup</option>
-            <option>Integrations &amp; Automation</option>
-            <option>Performance Audit</option>
-            <option>Fractional CTO</option>
-            <option>Case Study Inquiry</option>
-            <option>Other</option>
+            {FORM_SERVICE_OPTIONS.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
           </select>
         </div>
       </div>

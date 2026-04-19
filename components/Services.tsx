@@ -1,5 +1,8 @@
 "use client";
 
+import type Lenis from "lenis";
+import { SERVICE_SELECT_EVENT } from "@/components/siteData";
+
 const services = [
   {
     num: "01 / SERVICE",
@@ -73,21 +76,45 @@ const services = [
   },
   {
     num: "06 / SERVICE",
-    icon: "CTO",
-    name: "Fractional CTO",
-    desc: "Technical leadership for startups without a full-time CTO. I align engineering with product vision and keep the team shipping.",
+    icon: "PM",
+    name: "Project Management",
+    desc: "Hands-on delivery management for software teams. I keep scope, timelines, communication, and execution aligned so projects move without chaos.",
     items: [
-      "Architecture decision-making",
-      "Technical hiring & code review",
-      "Roadmap & sprint planning",
-      "Vendor & tooling evaluation",
-      "Investor technical due diligence",
+      "Sprint planning & backlog grooming",
+      "Team coordination across dev, design, QA",
+      "Timeline, scope & risk management",
+      "Client & stakeholder communication",
+      "Delivery tracking & status reporting",
     ],
-    price: "Monthly retainer",
+    price: "Per sprint or retainer",
   },
 ];
 
 export default function Services() {
+  function handleServiceSelect(serviceName: string) {
+    if (typeof window === "undefined") return;
+
+    window.dispatchEvent(
+      new CustomEvent<string>(SERVICE_SELECT_EVENT, { detail: serviceName })
+    );
+
+    const url = new URL(window.location.href);
+    url.searchParams.set("service", serviceName);
+    url.hash = "contact";
+    window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
+
+    const target = document.getElementById("contact");
+    if (!target) return;
+
+    const lenis = window.__lenis as Lenis | undefined;
+    if (lenis) {
+      lenis.scrollTo(target, { offset: -96, duration: 1 });
+      return;
+    }
+
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   return (
     <section
       id="services"
@@ -108,7 +135,12 @@ export default function Services() {
           }}
         >
           {services.map((svc, i) => (
-            <ServiceCard key={i} svc={svc} col={i % 3} />
+            <ServiceCard
+              key={i}
+              svc={svc}
+              col={i % 3}
+              onSelect={handleServiceSelect}
+            />
           ))}
         </div>
       </div>
@@ -119,12 +151,16 @@ export default function Services() {
 function ServiceCard({
   svc,
   col,
+  onSelect,
 }: {
   svc: (typeof services)[0];
   col: number;
+  onSelect: (serviceName: string) => void;
 }) {
   return (
-    <div
+    <button
+      type="button"
+      onClick={() => onSelect(svc.name)}
       className="svc-card"
       style={{
         padding: "40px 36px",
@@ -134,12 +170,20 @@ function ServiceCard({
         transition: "background 0.25s",
         background: "transparent",
         cursor: "none",
+        width: "100%",
+        textAlign: "left",
+        display: "block",
+        fontFamily: "var(--font-sans), sans-serif",
+        color: "inherit",
+        appearance: "none",
+        borderTop: "none",
+        borderLeft: "none",
       }}
       onMouseEnter={(e) =>
-        ((e.currentTarget as HTMLDivElement).style.background = "var(--cream)")
+        ((e.currentTarget as HTMLButtonElement).style.background = "var(--cream)")
       }
       onMouseLeave={(e) =>
-        ((e.currentTarget as HTMLDivElement).style.background = "transparent")
+        ((e.currentTarget as HTMLButtonElement).style.background = "transparent")
       }
     >
       <div
@@ -225,9 +269,9 @@ function ServiceCard({
           borderTop: "1px solid var(--border2)",
         }}
       >
-        {svc.price}
+        {svc.price} · Click to enquire
       </div>
-    </div>
+    </button>
   );
 }
 

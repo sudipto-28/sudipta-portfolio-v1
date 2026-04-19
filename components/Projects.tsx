@@ -1,14 +1,24 @@
 "use client";
 
-import Image from "next/image";
+type Project = {
+  num: string;
+  name: string;
+  desc: string;
+  stack: string[];
+  videoId: string;
+  videoUrl: string;
+  live: string | null;
+  wide: boolean;
+};
 
-const projects = [
+const projects: Project[] = [
   {
     num: "01 — Featured",
     name: "TaskGrid",
     desc: "All-in-one project & task management SaaS — boards, real-time collaboration, analytics, automation, team communication. Scaled to 100k+ concurrent users.",
     stack: ["Nuxt.js", "NestJS", "MongoDB", "PostgreSQL", "Redis", "Socket.io", "AWS"],
-    videoId: "kqbWl222_54",
+    videoId: "gsfYeQrA9so",
+    videoUrl: "https://youtu.be/gsfYeQrA9so",
     live: "https://taskgrid.io",
     wide: true,
   },
@@ -17,26 +27,29 @@ const projects = [
     name: "BoostUGC",
     desc: "Video testimonial platform. Multi-brand agency management, secure storage, moderation at scale.",
     stack: ["Nuxt.js", "NestJS", "WebRTC", "AWS"],
-    videoId: "imwJbPvQ_eU",
+    videoId: "Mvr0De1yDRY",
+    videoUrl: "https://youtu.be/Mvr0De1yDRY",
     live: "https://www.boostugc.co",
     wide: false,
   },
   {
     num: "03",
-    name: "Pengine",
-    desc: "Next-gen print-on-demand SaaS. Shopify integration, bulk mockup generation, wallets, enterprise APIs.",
-    stack: ["Nuxt.js", "NestJS", "ClickHouse", "Shopify"],
-    videoId: "t4NBCVjfJf0",
-    live: "https://pengine.io",
+    name: "Egshop",
+    desc: "eCommerce SaaS platform for Bangladeshi merchants with local payments, logistics, and multi-store management.",
+    stack: ["Node.js", "MongoDB", "Redis", "Docker"],
+    videoId: "wkrosRgWdVc",
+    videoUrl: "https://youtu.be/wkrosRgWdVc",
+    live: "https://egshop.io",
     wide: false,
   },
   {
     num: "04",
-    name: "Render Engine",
-    desc: "GPU-powered SaaS generating ultra-realistic product mockups at scale. Eliminated manual bulk workflows.",
-    stack: ["Nuxt.js", "GPU Render", "GraphQL", "AWS"],
-    videoId: "tIefE4CYChE",
-    live: "https://b2c.thunderthrone.com",
+    name: "Pengine",
+    desc: "Next-gen print-on-demand SaaS. Shopify integration, bulk mockup generation, wallets, enterprise APIs.",
+    stack: ["Nuxt.js", "NestJS", "ClickHouse", "Shopify"],
+    videoId: "B41rkkrPfpo",
+    videoUrl: "https://youtu.be/B41rkkrPfpo",
+    live: "https://pengine.io",
     wide: false,
   },
   {
@@ -44,34 +57,58 @@ const projects = [
     name: "Craft Music",
     desc: "Real-time global music lesson platform. Audio-optimized WebRTC, timezone-aware scheduling, live chat, subscriptions & payments worldwide.",
     stack: ["Nuxt.js", "NestJS", "WebRTC", "GetStream", "Docker", "AWS"],
-    videoId: "vSdp7U35be0",
+    videoId: "GEPMdtkZmTU",
+    videoUrl: "https://youtu.be/GEPMdtkZmTU",
     live: "https://craft-music.dev",
     wide: true,
   },
   {
     num: "06",
-    name: "Egshop.io",
-    desc: "Multi-tenant eCommerce SaaS for Bangladeshi merchants. Local payments, logistics, multi-store management.",
-    stack: ["Node.js", "MongoDB", "Redis", "Docker"],
-    videoId: "lYgHdp1wGJ4",
-    live: "https://egshop.io",
+    name: "Campus Automation System",
+    desc: "Full campus operations platform covering admissions, academics, exams, payroll, finance, and administration workflows.",
+    stack: ["React.js", "Node.js", "PostgreSQL", "Docker"],
+    videoId: "y9HwAAE0zYQ",
+    videoUrl: "https://youtu.be/y9HwAAE0zYQ",
+    live: null,
     wide: false,
   },
   {
     num: "07",
-    name: "Eselfmade",
-    desc: "EdTech SaaS — course discovery, automated payments, progress tracking, centralized admin ops.",
-    stack: ["Nuxt.js", "Node.js", "PostgreSQL", "AWS"],
-    videoId: "Fm08Xy39CPg",
+    name: "Egg Hatching Forecast App",
+    desc: "ACI Godrej forecasting app for hatchery planning, production visibility, and operational decision support.",
+    stack: ["React.js", "FastAPI", "PostgreSQL", "Analytics"],
+    videoId: "8f40GePeLWI",
+    videoUrl: "https://youtu.be/8f40GePeLWI",
     live: null,
     wide: false,
   },
   {
     num: "08",
-    name: "Forecasting — ACI",
+    name: "Eselfmade",
+    desc: "EdTech SaaS — course discovery, automated payments, progress tracking, centralized admin ops.",
+    stack: ["Nuxt.js", "Node.js", "PostgreSQL", "AWS"],
+    videoId: "Fm08Xy39CPg",
+    videoUrl: "https://youtu.be/Fm08Xy39CPg",
+    live: null,
+    wide: false,
+  },
+  {
+    num: "09",
+    name: "Forecasting & Budget Automation",
     desc: "Enterprise automation replacing Excel. Multi-year production & budget analytics with real-time dashboards.",
     stack: ["React.js", "Python", "FastAPI", "PostgreSQL"],
     videoId: "SUpeFjqymM0",
+    videoUrl: "https://youtu.be/SUpeFjqymM0",
+    live: null,
+    wide: false,
+  },
+  {
+    num: "10",
+    name: "Render Engine",
+    desc: "GPU-powered SaaS generating ultra-realistic product mockups at scale. Eliminated manual bulk workflows.",
+    stack: ["Nuxt.js", "GPU Render", "GraphQL", "AWS"],
+    videoId: "x-UQDPvVOtg",
+    videoUrl: "https://youtu.be/x-UQDPvVOtg",
     live: null,
     wide: false,
   },
@@ -136,7 +173,7 @@ export default function Projects() {
               lineHeight: 1.7,
             }}
           >
-            08 shipped products across SaaS, EdTech, eCommerce &amp; Enterprise
+            10 shipped products across SaaS, EdTech, eCommerce &amp; Enterprise
           </div>
         </div>
 
@@ -161,7 +198,7 @@ function ProjectCard({
   project,
   index,
 }: {
-  project: (typeof projects)[0];
+  project: Project;
   index: number;
 }) {
   const isWide = project.wide;
@@ -180,14 +217,8 @@ function ProjectCard({
         background: "var(--cream)",
       }}
     >
-      {/* Thumbnail */}
-      <a
-        href={`https://youtu.be/${project.videoId}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{ display: "block", textDecoration: "none" }}
-        className="yt-link"
-      >
+      {/* Video */}
+      <div style={{ display: "block" }}>
         <div
           style={{
             position: "relative",
@@ -196,50 +227,24 @@ function ProjectCard({
           }}
           className="yt-wrap"
         >
-          <Image
-            src={`https://img.youtube.com/vi/${project.videoId}/maxresdefault.jpg`}
-            alt={project.name}
-            fill
-            style={{
-              objectFit: "cover",
-              filter: "saturate(0.5) brightness(0.85)",
-              transition: "filter 0.5s, transform 0.5s",
-            }}
-            className="yt-img"
-            sizes={isWide ? "66vw" : "33vw"}
-          />
-          <div
+          <iframe
+            src={`https://www.youtube.com/embed/${project.videoId}?rel=0`}
+            title={`${project.name} demo video`}
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
             style={{
               position: "absolute",
               inset: 0,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              background:
-                "linear-gradient(to bottom, transparent 40%, rgba(28,24,20,0.4))",
+              width: "100%",
+              height: "100%",
+              border: 0,
+              filter: "saturate(0.85) brightness(0.96)",
             }}
-          >
-            <div
-              className="play-btn"
-              style={{
-                width: 52,
-                height: 52,
-                background: "rgba(246,242,236,0.9)",
-                borderRadius: "50%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 16,
-                paddingLeft: 3,
-                color: "var(--ink)",
-                transition: "background 0.2s, transform 0.2s",
-              }}
-            >
-              ▶
-            </div>
-          </div>
+          />
         </div>
-      </a>
+      </div>
 
       {/* Body */}
       <div
@@ -339,7 +344,7 @@ function ProjectCard({
             </a>
           )}
           <a
-            href={`https://youtu.be/${project.videoId}`}
+            href={project.videoUrl}
             target="_blank"
             rel="noopener noreferrer"
             style={{

@@ -1,5 +1,7 @@
 "use client";
 
+import { RESUME_URL } from "@/components/siteData";
+
 const stats = [
   { num: "8", suffix: "+", label: "Years of\nEngineering" },
   { num: "12", suffix: "+", label: "Products\nShipped" },
@@ -157,8 +159,9 @@ export default function Hero() {
             Services
           </a>
           <a
-            href="/cv.pdf"
-            download="Sudipta_Mondal_CV.pdf"
+            href={RESUME_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
               fontFamily: "var(--font-sans), sans-serif",
               fontSize: 12,
@@ -185,7 +188,7 @@ export default function Hero() {
               el.style.color = "var(--gold)";
             }}
           >
-            ↓ Resume
+            Resume ↗
           </a>
         </div>
       </div>

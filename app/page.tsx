@@ -8,10 +8,13 @@ import Experience from "@/components/Experience";
 import Stack from "@/components/Stack";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import SmoothScroll from "@/components/SmoothScroll";
+import ScrollToTop from "@/components/ScrollToTop";
 
 export default function Home() {
   return (
     <>
+      <SmoothScroll />
       <Cursor />
       <Nav />
       <main>
@@ -23,6 +26,7 @@ export default function Home() {
         <Stack />
         <Contact />
       </main>
+      <ScrollToTop />
       <Footer />
     </>
   );

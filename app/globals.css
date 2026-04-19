@@ -23,13 +23,18 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
+  scroll-padding-top: 96px;
 }
 
 body {
   background: var(--cream);
   color: var(--ink);
   overflow-x: hidden;
+}
+
+section[id] {
+  scroll-margin-top: 96px;
 }
 
 /* Custom cursor */
@@ -318,4 +323,3 @@ body {
     padding: 28px 20px !important;
   }
 }
-
