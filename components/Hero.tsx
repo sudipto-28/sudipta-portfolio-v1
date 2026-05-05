@@ -1,13 +1,7 @@
 "use client";
 
+import Image from "next/image";
 import { RESUME_URL } from "@/components/siteData";
-
-const stats = [
-  { num: "8", suffix: "+", label: "Years of\nEngineering" },
-  { num: "12", suffix: "+", label: "Products\nShipped" },
-  { num: "100", suffix: "k", label: "Concurrent\nUsers Served" },
-  { num: "5", suffix: "★", label: "Client\nSatisfaction" },
-];
 
 export default function Hero() {
   return (
@@ -33,7 +27,7 @@ export default function Hero() {
         }}
       >
         <div
-          className="hero-tag"
+          className="hero-tag fade-up"
           style={{
             fontFamily: "var(--font-mono), monospace",
             fontSize: 11,
@@ -43,12 +37,14 @@ export default function Hero() {
             marginBottom: 28,
             display: "flex",
             alignItems: "center",
+            animationDelay: "0.05s",
           }}
         >
           Senior Software Engineer
         </div>
 
         <h1
+          className="fade-up"
           style={{
             fontFamily: "var(--font-serif), Georgia, serif",
             fontSize: "clamp(52px, 7vw, 96px)",
@@ -57,6 +53,7 @@ export default function Hero() {
             letterSpacing: "-0.03em",
             color: "var(--ink)",
             marginBottom: 8,
+            animationDelay: "0.15s",
           }}
         >
           Sudipta
@@ -65,6 +62,7 @@ export default function Hero() {
         </h1>
 
         <div
+          className="fade-up"
           style={{
             fontFamily: "var(--font-serif), Georgia, serif",
             fontSize: "clamp(20px, 2.8vw, 36px)",
@@ -73,6 +71,7 @@ export default function Hero() {
             color: "var(--ink3)",
             marginBottom: 32,
             lineHeight: 1.2,
+            animationDelay: "0.28s",
           }}
         >
           Full-Stack Architect
@@ -81,6 +80,7 @@ export default function Hero() {
         </div>
 
         <p
+          className="fade-up"
           style={{
             fontSize: 15,
             lineHeight: 1.8,
@@ -88,6 +88,7 @@ export default function Hero() {
             maxWidth: 460,
             marginBottom: 44,
             fontWeight: 300,
+            animationDelay: "0.4s",
           }}
         >
           Eight years designing and shipping{" "}
@@ -98,7 +99,15 @@ export default function Hero() {
           the entire stack so founders can focus on their product.
         </p>
 
-        <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+        <div
+          className="fade-up"
+          style={{
+            display: "flex",
+            gap: 12,
+            flexWrap: "wrap",
+            animationDelay: "0.52s",
+          }}
+        >
           <a
             href="#projects"
             style={{
@@ -193,94 +202,38 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Right */}
+      {/* Right — portrait */}
       <div
         className="hero-right-col"
         style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          padding: "80px 56px",
+          position: "relative",
+          overflow: "hidden",
+          background: "var(--cream2)",
         }}
       >
-        {/* Stats grid */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            flex: 1,
-            alignContent: "center",
-          }}
-        >
-          {stats.map((s, i) => (
-            <div
-              key={i}
-              style={{
-                padding: "36px 32px",
-                borderBottom:
-                  i < 2 ? "1px solid var(--border)" : undefined,
-                borderRight: i % 2 === 0 ? "1px solid var(--border)" : undefined,
-              }}
-            >
-              <div
-                style={{
-                  fontFamily: "var(--font-serif), Georgia, serif",
-                  fontSize: "clamp(40px, 4.5vw, 64px)",
-                  fontWeight: 900,
-                  lineHeight: 1,
-                  color: "var(--ink)",
-                  marginBottom: 8,
-                  letterSpacing: "-0.03em",
-                }}
-              >
-                {s.num}
-                <span style={{ color: "var(--gold)" }}>{s.suffix}</span>
-              </div>
-              <div
-                style={{
-                  fontFamily: "var(--font-mono), monospace",
-                  fontSize: 10,
-                  color: "var(--ink3)",
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  lineHeight: 1.5,
-                  whiteSpace: "pre-line",
-                }}
-              >
-                {s.label}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Quote */}
-        <div
-          style={{
-            paddingTop: 32,
-            borderTop: "1px solid var(--border)",
-            fontFamily: "var(--font-serif), Georgia, serif",
-            fontSize: 15,
-            fontStyle: "italic",
-            color: "var(--ink3)",
-            lineHeight: 1.7,
-          }}
-        >
-          &ldquo;Sudipta delivered a complete SaaS platform on time and beyond
-          expectations — truly a senior-level engineer who thinks like a product
-          owner.&rdquo;
-          <cite
+        <div className="hero-img-wrap">
+          <Image
+            src="/myself-2.png"
+            alt="Portrait of Sudipta Mondal"
+            fill
+            priority
+            sizes="(max-width: 1100px) 100vw, 50vw"
             style={{
-              fontStyle: "normal",
-              fontFamily: "var(--font-mono), monospace",
-              fontSize: 10,
-              display: "block",
-              marginTop: 10,
-              color: "var(--gold)",
-              letterSpacing: "0.1em",
+              objectFit: "cover",
+              objectPosition: "center center",
             }}
-          >
-            — James K., Founder · TaskGrid
-          </cite>
+          />
+          {/* Soft left-edge gradient to blend with cream stage */}
+          <div
+            aria-hidden
+            style={{
+              position: "absolute",
+              inset: 0,
+              background:
+                "linear-gradient(90deg, rgba(246,242,236,0.35) 0%, rgba(246,242,236,0) 18%)",
+              pointerEvents: "none",
+            }}
+          />
         </div>
       </div>
     </section>

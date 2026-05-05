@@ -66,7 +66,7 @@ export default function Stack() {
             gap: 24,
           }}
         >
-          <div>
+          <div data-reveal>
             <span
               style={{
                 fontFamily: "var(--font-mono), monospace",
@@ -97,6 +97,7 @@ export default function Stack() {
           </div>
           <div
             className="section-header-sub"
+            data-reveal
             style={{
               fontSize: 13,
               color: "var(--ink3)",
@@ -106,6 +107,7 @@ export default function Stack() {
               maxWidth: 280,
               textAlign: "right",
               lineHeight: 1.7,
+              animationDelay: "120ms",
             }}
           >
             Full stack depth from component to cluster
@@ -123,7 +125,7 @@ export default function Stack() {
           }}
         >
           {/* Left: description + bars */}
-          <div>
+          <div data-reveal>
             <p
               style={{
                 fontSize: 15,
@@ -232,6 +234,7 @@ function StackIcon({
 
   return (
     <div
+      data-reveal
       style={{
         padding: "28px 16px",
         textAlign: "center",
@@ -239,6 +242,7 @@ function StackIcon({
         borderBottom: !isLastRow ? "1px solid var(--border)" : undefined,
         transition: "background 0.2s",
         cursor: "none",
+        animationDelay: `${index * 50}ms`,
       }}
       onMouseEnter={(e) =>
         ((e.currentTarget as HTMLDivElement).style.background = "var(--cream2)")

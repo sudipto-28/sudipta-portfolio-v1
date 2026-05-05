@@ -139,6 +139,7 @@ export default function Services() {
               key={i}
               svc={svc}
               col={i % 3}
+              index={i}
               onSelect={handleServiceSelect}
             />
           ))}
@@ -151,10 +152,12 @@ export default function Services() {
 function ServiceCard({
   svc,
   col,
+  index,
   onSelect,
 }: {
   svc: (typeof services)[0];
   col: number;
+  index: number;
   onSelect: (serviceName: string) => void;
 }) {
   return (
@@ -162,6 +165,7 @@ function ServiceCard({
       type="button"
       onClick={() => onSelect(svc.name)}
       className="svc-card"
+      data-reveal
       style={{
         padding: "40px 36px",
         borderRight: col !== 2 ? "1px solid var(--border)" : undefined,
@@ -178,6 +182,7 @@ function ServiceCard({
         appearance: "none",
         borderTop: "none",
         borderLeft: "none",
+        animationDelay: `${(index % 3) * 90}ms`,
       }}
       onMouseEnter={(e) =>
         ((e.currentTarget as HTMLButtonElement).style.background = "var(--cream)")
@@ -295,7 +300,7 @@ function SectionHeader({
         gap: 24,
       }}
     >
-      <div>
+      <div data-reveal>
         <span
           style={{
             fontFamily: "var(--font-mono), monospace",
@@ -324,6 +329,7 @@ function SectionHeader({
       </div>
       <div
         className="section-header-sub"
+        data-reveal
         style={{
           fontSize: 13,
           color: "var(--ink3)",
@@ -333,6 +339,7 @@ function SectionHeader({
           maxWidth: 280,
           textAlign: "right",
           lineHeight: 1.7,
+          animationDelay: "120ms",
         }}
       >
         {sub}

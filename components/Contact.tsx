@@ -30,7 +30,7 @@ export default function Contact() {
             gap: 24,
           }}
         >
-          <div>
+          <div data-reveal>
             <span
               style={{
                 fontFamily: "var(--font-mono), monospace",
@@ -61,6 +61,7 @@ export default function Contact() {
           </div>
           <div
             className="section-header-sub"
+            data-reveal
             style={{
               fontSize: 13,
               color: "var(--ink3)",
@@ -70,6 +71,7 @@ export default function Contact() {
               maxWidth: 280,
               textAlign: "right",
               lineHeight: 1.7,
+              animationDelay: "120ms",
             }}
           >
             Available for senior roles, SaaS builds &amp; Project Management
@@ -87,6 +89,7 @@ export default function Contact() {
           {/* Left */}
           <div
             className="contact-left"
+            data-reveal
             style={{
               padding: "64px 56px 80px 0",
               borderRight: "1px solid var(--border)",
@@ -277,7 +280,11 @@ export default function Contact() {
           </div>
 
           {/* Right: Form */}
-          <div className="contact-right" style={{ padding: "64px 0 80px 56px" }}>
+          <div
+            className="contact-right"
+            data-reveal
+            style={{ padding: "64px 0 80px 56px", animationDelay: "120ms" }}
+          >
             {RECAPTCHA_SITE_KEY ? (
               <GoogleReCaptchaProvider
                 reCaptchaKey={RECAPTCHA_SITE_KEY}

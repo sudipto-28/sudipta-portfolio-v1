@@ -90,6 +90,58 @@ section[id] {
   50% { opacity: 0.5; transform: scale(0.8); }
 }
 
+/* ── Subtle entrance animations ── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hero-img-reveal {
+  from { opacity: 0; transform: scale(1.06); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.fade-up {
+  animation: fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-img-wrap {
+  position: absolute;
+  inset: 0;
+  animation: hero-img-reveal 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up,
+  .hero-img-wrap {
+    animation: none !important;
+  }
+}
+
+/* Scroll-triggered reveal — observed by RevealObserver.
+   Animation-based so it doesn't fight inline `transition` props on cards. */
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+[data-reveal] {
+  opacity: 0;
+  will-change: opacity, transform;
+}
+[data-reveal][data-revealed="true"] {
+  animation: reveal-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+  }
+  [data-reveal][data-revealed="true"] {
+    animation: none !important;
+  }
+}
+
 /* Service icon text transition */
 .svc-icon-text {
   transition: color 0.3s;
@@ -241,7 +293,25 @@ section[id] {
     padding: 80px 24px 60px !important;
   }
   .hero-right-col {
-    padding: 48px 24px 60px !important;
+    padding: 0 !important;
+    aspect-ratio: 4 / 5;
+    min-height: 480px;
+  }
+
+  /* Stats wrap to 2 cols */
+  .stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .stats-grid > * {
+    border-right: none !important;
+    border-bottom: 1px solid var(--border);
+    padding: 28px 20px !important;
+  }
+  .stats-grid > *:nth-child(odd) {
+    border-right: 1px solid var(--border) !important;
+  }
+  .stats-grid > *:nth-last-child(-n+2) {
+    border-bottom: none;
   }
 
   /* Container padding */

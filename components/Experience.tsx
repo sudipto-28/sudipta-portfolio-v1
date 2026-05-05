@@ -69,7 +69,7 @@ export default function Experience() {
             gap: 24,
           }}
         >
-          <div>
+          <div data-reveal>
             <span
               style={{
                 fontFamily: "var(--font-mono), monospace",
@@ -100,6 +100,7 @@ export default function Experience() {
           </div>
           <div
             className="section-header-sub"
+            data-reveal
             style={{
               fontSize: 13,
               color: "var(--ink3)",
@@ -109,6 +110,7 @@ export default function Experience() {
               maxWidth: 280,
               textAlign: "right",
               lineHeight: 1.7,
+              animationDelay: "120ms",
             }}
           >
             8 years across SaaS architecture, enterprise systems &amp; engineering mentorship
@@ -120,6 +122,7 @@ export default function Experience() {
             <div
               key={i}
               className="exp-item-grid"
+              data-reveal
               style={{
                 display: "grid",
                 gridTemplateColumns: "140px 1fr",

@@ -131,7 +131,7 @@ export default function Projects() {
             gap: 24,
           }}
         >
-          <div>
+          <div data-reveal>
             <span
               style={{
                 fontFamily: "var(--font-mono), monospace",
@@ -162,6 +162,7 @@ export default function Projects() {
           </div>
           <div
             className="section-header-sub"
+            data-reveal
             style={{
               fontSize: 13,
               color: "var(--ink3)",
@@ -171,6 +172,7 @@ export default function Projects() {
               maxWidth: 280,
               textAlign: "right",
               lineHeight: 1.7,
+              animationDelay: "120ms",
             }}
           >
             10 shipped products across SaaS, EdTech, eCommerce &amp; Enterprise
@@ -187,7 +189,7 @@ export default function Projects() {
           }}
         >
           {projects.map((p, i) => (
-            <ProjectCard key={i} project={p} />
+            <ProjectCard key={i} project={p} index={i} />
           ))}
         </div>
       </div>
@@ -195,12 +197,13 @@ export default function Projects() {
   );
 }
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({ project, index }: { project: Project; index: number }) {
   const isWide = project.wide;
 
   return (
     <div
       className="proj-card"
+      data-reveal
       style={{
         gridColumn: isWide ? "span 2" : undefined,
         display: "flex",
@@ -210,6 +213,7 @@ function ProjectCard({ project }: { project: Project }) {
         border: "1px solid var(--border)",
         borderRadius: 4,
         transition: "transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease",
+        animationDelay: `${(index % 3) * 90}ms`,
       }}
     >
       {/* Video */}

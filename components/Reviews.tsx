@@ -64,7 +64,7 @@ export default function Reviews() {
             gap: 24,
           }}
         >
-          <div>
+          <div data-reveal>
             <span
               style={{
                 fontFamily: "var(--font-mono), monospace",
@@ -95,6 +95,7 @@ export default function Reviews() {
           </div>
           <div
             className="section-header-sub"
+            data-reveal
             style={{
               fontSize: 13,
               color: "rgba(246,242,236,0.4)",
@@ -104,6 +105,7 @@ export default function Reviews() {
               maxWidth: 280,
               textAlign: "right",
               lineHeight: 1.7,
+              animationDelay: "120ms",
             }}
           >
             Six verified reviews from Upwork, LinkedIn &amp; direct clients
@@ -121,7 +123,7 @@ export default function Reviews() {
           }}
         >
           {reviews.map((r, i) => (
-            <ReviewCard key={i} review={r} col={i % 3} />
+            <ReviewCard key={i} review={r} col={i % 3} index={i} />
           ))}
         </div>
       </div>
@@ -132,12 +134,15 @@ export default function Reviews() {
 function ReviewCard({
   review,
   col,
+  index,
 }: {
   review: (typeof reviews)[0];
   col: number;
+  index: number;
 }) {
   return (
     <div
+      data-reveal
       style={{
         padding: "36px 32px",
         borderRight: col !== 2 ? "1px solid rgba(255,255,255,0.08)" : undefined,
@@ -145,6 +150,7 @@ function ReviewCard({
         position: "relative",
         transition: "background 0.25s",
         cursor: "none",
+        animationDelay: `${(index % 3) * 90}ms`,
       }}
       onMouseEnter={(e) =>
         ((e.currentTarget as HTMLDivElement).style.background =
