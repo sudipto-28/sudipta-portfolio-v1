@@ -328,11 +328,21 @@ function InfoRow({
           whiteSpace: "nowrap",
           paddingTop: 3,
           minWidth: 80,
+          flexShrink: 0,
         }}
       >
         {label}
       </span>
-      <span>{children}</span>
+      <span
+        style={{
+          flex: 1,
+          minWidth: 0,
+          overflowWrap: "anywhere",
+          wordBreak: "break-word",
+        }}
+      >
+        {children}
+      </span>
     </div>
   );
 }
