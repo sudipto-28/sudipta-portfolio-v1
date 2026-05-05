@@ -1,6 +1,43 @@
 export const RESUME_URL =
   "https://rxresu.me/sudipta.just/senior-software-engineer";
 
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://devsudipto.com";
+
+export const SITE_NAME = "Sudipta Mondal — Senior Software Engineer";
+
+export const CONTACT_EMAIL = "contact@devsudipto.com";
+
+export const PERSON = {
+  name: "Sudipta Mondal",
+  jobTitle: "Senior Software Engineer & Full-Stack Architect",
+  description:
+    "Senior Software Engineer with 8+ years building SaaS platforms, real-time systems, and cloud infrastructure.",
+  image: "/myself.png",
+  email: CONTACT_EMAIL,
+  addressLocality: "Dhaka",
+  addressCountry: "BD",
+  knowsAbout: [
+    "Software Architecture",
+    "SaaS Development",
+    "React",
+    "Vue",
+    "Next.js",
+    "Nuxt.js",
+    "Node.js",
+    "NestJS",
+    "TypeScript",
+    "Go",
+    "AWS",
+    "Docker",
+    "Kubernetes",
+    "WebRTC",
+    "Real-time Systems",
+    "DevOps",
+    "Project Management",
+  ],
+} as const;
+
 export const SERVICE_SELECT_EVENT = "service:selected";
 
 export const NAV_LINKS = [
