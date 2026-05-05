@@ -1,47 +1,49 @@
 "use client";
 
+import Image from "next/image";
+
 const reviews = [
   {
     platform: "UPWORK",
     text: "Sudipta delivered a complete SaaS platform on time and beyond expectations. The architecture was clean, scalable, and well-documented. Truly a senior-level engineer who thinks like a product owner.",
-    initials: "JK",
-    name: "James K.",
-    role: "Founder · TaskGrid",
+    image: "/clients/Josiah Lowe-ceo-mountainy.jpeg",
+    name: "Josiah Lowe",
+    role: "CEO · Mountainy",
   },
   {
     platform: "DIRECT",
     text: "The WebRTC implementation for our music platform was flawless. Sub-100ms latency globally, zero audio artefacts. He handled the entire infrastructure from scratch. Highly recommend for real-time systems.",
-    initials: "SM",
-    name: "Sarah M.",
-    role: "CTO · Craft Music",
+    image: "/clients/james-craft-ceo-carft-music.jpeg",
+    name: "James Craft",
+    role: "CEO · Craft Music",
   },
   {
     platform: "LINKEDIN",
     text: "Replaced our entire Excel forecasting workflow with a robust system in 8 weeks. The dashboard is intuitive and the automation saves our team 20+ hours a week. Exceptional problem-solver.",
-    initials: "RA",
-    name: "Rahman A.",
-    role: "VP Operations · ACI Group",
+    image: "/clients/archie-norman-mercury.jpeg",
+    name: "Archie Norman",
+    role: "Founder · Mercury",
   },
   {
     platform: "UPWORK",
     text: "Outstanding Shopify app development. Deep API knowledge, clean code, deployed to production without a single issue. Responded quickly and adapted to our changing requirements throughout.",
-    initials: "TW",
-    name: "Tom W.",
-    role: "Co-Founder · eCommerce Brand",
+    image: "/clients/eric-toz-shineon.jpeg",
+    name: "Eric Toz",
+    role: "Founder · ShineOn",
   },
   {
     platform: "DIRECT",
     text: "Sudipta rebuilt our backend from a monolith to microservices in a way that caused zero downtime. Our system now handles 10x the load with the same infrastructure costs. Remarkable engineering.",
-    initials: "NI",
-    name: "Nadia I.",
-    role: "CEO · Egshop.io",
+    image: "/clients/eric-dunion-ceo-mentis.jpeg",
+    name: "Eric Dunion",
+    role: "CEO · Mentis",
   },
   {
     platform: "LINKEDIN",
     text: "As our Fractional CTO, Sudipta helped us go from MVP to Series A in 9 months. He made smart architectural decisions early that saved us enormous refactor costs down the line. A rare find.",
-    initials: "MH",
-    name: "Mark H.",
-    role: "Founder · B2B SaaS Startup",
+    image: "/clients/kit-norman-ceo-augmentive.jpeg",
+    name: "Kit Norman",
+    role: "CEO · Augmentive",
   },
 ];
 
@@ -203,21 +205,23 @@ function ReviewCard({
       >
         <div
           style={{
-            width: 40,
-            height: 40,
-            background: "rgba(255,255,255,0.06)",
+            position: "relative",
+            width: 44,
+            height: 44,
             border: "1px solid rgba(255,255,255,0.12)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontFamily: "var(--font-mono), monospace",
-            fontSize: 12,
-            fontWeight: 500,
-            color: "var(--gold2)",
+            borderRadius: "50%",
+            overflow: "hidden",
             flexShrink: 0,
+            background: "rgba(255,255,255,0.06)",
           }}
         >
-          {review.initials}
+          <Image
+            src={review.image}
+            alt={review.name}
+            fill
+            sizes="44px"
+            style={{ objectFit: "cover" }}
+          />
         </div>
         <div>
           <div

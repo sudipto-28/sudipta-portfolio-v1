@@ -53,7 +53,17 @@ const projects: Project[] = [
     wide: false,
   },
   {
-    num: "05 — Featured",
+    num: "05",
+    name: "Render Engine",
+    desc: "GPU-powered SaaS generating ultra-realistic product mockups at scale. Eliminated manual bulk workflows.",
+    stack: ["Nuxt.js", "GPU Render", "GraphQL", "AWS"],
+    videoId: "x-UQDPvVOtg",
+    videoUrl: "https://youtu.be/x-UQDPvVOtg",
+    live: null,
+    wide: false,
+  },
+  {
+    num: "06 — Featured",
     name: "Craft Music",
     desc: "Real-time global music lesson platform. Audio-optimized WebRTC, timezone-aware scheduling, live chat, subscriptions & payments worldwide.",
     stack: ["Nuxt.js", "NestJS", "WebRTC", "GetStream", "Docker", "AWS"],
@@ -63,7 +73,7 @@ const projects: Project[] = [
     wide: true,
   },
   {
-    num: "06",
+    num: "07",
     name: "Campus Automation System",
     desc: "Full campus operations platform covering admissions, academics, exams, payroll, finance, and administration workflows.",
     stack: ["React.js", "Node.js", "PostgreSQL", "Docker"],
@@ -73,7 +83,7 @@ const projects: Project[] = [
     wide: false,
   },
   {
-    num: "07",
+    num: "08",
     name: "Egg Hatching Forecast App",
     desc: "ACI Godrej forecasting app for hatchery planning, production visibility, and operational decision support.",
     stack: ["React.js", "FastAPI", "PostgreSQL", "Analytics"],
@@ -83,7 +93,7 @@ const projects: Project[] = [
     wide: false,
   },
   {
-    num: "08",
+    num: "09",
     name: "Eselfmade",
     desc: "EdTech SaaS — course discovery, automated payments, progress tracking, centralized admin ops.",
     stack: ["Nuxt.js", "Node.js", "PostgreSQL", "AWS"],
@@ -93,22 +103,12 @@ const projects: Project[] = [
     wide: false,
   },
   {
-    num: "09",
+    num: "10",
     name: "Forecasting & Budget Automation",
     desc: "Enterprise automation replacing Excel. Multi-year production & budget analytics with real-time dashboards.",
     stack: ["React.js", "Python", "FastAPI", "PostgreSQL"],
     videoId: "SUpeFjqymM0",
     videoUrl: "https://youtu.be/SUpeFjqymM0",
-    live: null,
-    wide: false,
-  },
-  {
-    num: "10",
-    name: "Render Engine",
-    desc: "GPU-powered SaaS generating ultra-realistic product mockups at scale. Eliminated manual bulk workflows.",
-    stack: ["Nuxt.js", "GPU Render", "GraphQL", "AWS"],
-    videoId: "x-UQDPvVOtg",
-    videoUrl: "https://youtu.be/x-UQDPvVOtg",
     live: null,
     wide: false,
   },
@@ -182,11 +182,12 @@ export default function Projects() {
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(3, 1fr)",
-            borderTop: "1px solid var(--border)",
+            gap: 32,
+            paddingBottom: 96,
           }}
         >
           {projects.map((p, i) => (
-            <ProjectCard key={i} project={p} index={i} />
+            <ProjectCard key={i} project={p} />
           ))}
         </div>
       </div>
@@ -194,27 +195,21 @@ export default function Projects() {
   );
 }
 
-function ProjectCard({
-  project,
-  index,
-}: {
-  project: Project;
-  index: number;
-}) {
+function ProjectCard({ project }: { project: Project }) {
   const isWide = project.wide;
 
   return (
     <div
+      className="proj-card"
       style={{
         gridColumn: isWide ? "span 2" : undefined,
-        borderRight:
-          !isWide && index % 3 !== 2 ? "1px solid var(--border)" : undefined,
-        borderBottom: "1px solid var(--border)",
         display: "flex",
         flexDirection: "column",
         overflow: "hidden",
-        transition: "transform 0.3s",
         background: "var(--cream)",
+        border: "1px solid var(--border)",
+        borderRadius: 4,
+        transition: "transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease",
       }}
     >
       {/* Video */}
@@ -249,7 +244,7 @@ function ProjectCard({
       {/* Body */}
       <div
         style={{
-          padding: "24px 28px",
+          padding: "28px 30px 26px",
           flex: 1,
           display: "flex",
           flexDirection: "column",
@@ -261,7 +256,7 @@ function ProjectCard({
             fontSize: 10,
             color: "var(--ink3)",
             letterSpacing: "0.18em",
-            marginBottom: 8,
+            marginBottom: 10,
           }}
         >
           {project.num}
@@ -269,10 +264,10 @@ function ProjectCard({
         <div
           style={{
             fontFamily: "var(--font-serif), Georgia, serif",
-            fontSize: 20,
+            fontSize: 22,
             fontWeight: 700,
             color: "var(--ink)",
-            marginBottom: 8,
+            marginBottom: 10,
             lineHeight: 1.2,
           }}
         >
@@ -280,11 +275,11 @@ function ProjectCard({
         </div>
         <div
           style={{
-            fontSize: 12,
-            lineHeight: 1.75,
-            color: "var(--ink3)",
+            fontSize: 13,
+            lineHeight: 1.7,
+            color: "var(--ink2)",
             flex: 1,
-            marginBottom: 14,
+            marginBottom: 18,
             fontWeight: 300,
           }}
         >
@@ -294,8 +289,8 @@ function ProjectCard({
           style={{
             display: "flex",
             flexWrap: "wrap",
-            gap: 5,
-            marginBottom: 16,
+            gap: 6,
+            marginBottom: 22,
           }}
         >
           {project.stack.map((s) => (
@@ -315,7 +310,16 @@ function ProjectCard({
             </span>
           ))}
         </div>
-        <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
+        <div
+          className="proj-actions"
+          style={{
+            display: "flex",
+            gap: 14,
+            alignItems: "center",
+            paddingTop: 16,
+            borderTop: "1px solid var(--border)",
+          }}
+        >
           {project.live && (
             <a
               href={project.live}

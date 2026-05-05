@@ -106,6 +106,13 @@ section[id] {
   font-family: var(--font-serif, serif);
 }
 
+/* Project card hover lift */
+.proj-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px -18px rgba(28, 24, 20, 0.18);
+  border-color: rgba(28, 24, 20, 0.18) !important;
+}
+
 /* Svc / exp dash items */
 .dash-item::before {
   content: '—';
@@ -266,10 +273,11 @@ section[id] {
   /* Projects single col */
   .proj-grid {
     grid-template-columns: 1fr !important;
+    gap: 24px !important;
+    padding-bottom: 64px !important;
   }
   .proj-grid > * {
     grid-column: span 1 !important;
-    border-right: none !important;
   }
 
   /* Reviews single col */

@@ -2,40 +2,52 @@
 
 const experiences = [
   {
-    year: "22–",
-    period: "2022–26",
+    year: "24–",
+    period: "2024–26 · 2 yrs",
     current: true,
-    role: "Lead Systems Architect",
-    company: "Egshop.io · Pengine · BoostUGC · Render Engine",
+    role: "Project Manager",
+    company: "Genesys Softwares · Dhaka, Bangladesh",
     points: [
-      "Designed and delivered 5+ multi-tenant SaaS platforms from 0→1, handling 100k+ concurrent users",
-      "Reduced 12% LCP on flagship product via SSR micro-optimizations and CDN architecture",
-      "Built GPU-accelerated mockup generation pipeline processing millions of assets per month",
-      "Led distributed teams of 6–12 engineers across product, platform, and DevOps streams",
+      "Lead end-to-end technical execution across frontend, backend, DevOps, and real-time systems on flagship SaaS products (TaskGrid, Craft Music)",
+      "Drive AI-driven automation across product workflows while keeping Core Web Vitals and sub-100ms latency budgets on track",
+      "Mentor engineering teams and align technical decisions with business goals across cross-functional product squads",
     ],
   },
   {
-    year: "19–",
-    period: "2019–22 · 3 yrs",
+    year: "22–",
+    period: "2022–24 · 2 yrs",
     current: false,
-    role: "Senior Backend Engineer",
-    company: "TaskGrid · Craft Music · Eselfmade",
+    role: "Senior Software Engineer",
+    company: "Genesys Softwares · Dhaka, Bangladesh",
     points: [
-      "Architected real-time collaboration engine using Socket.io + Redis Pub/Sub for 100k+ users",
-      "Built WebRTC audio-optimized lesson platform with sub-100ms latency globally",
-      "Automated n8n/Zapier workflows cutting manual ops by 70% across 3 platforms",
+      "Architected the Pengine print-on-demand engine, including a GPU-accelerated rendering pipeline using Node.js and Go for print-ready assets and 3D previews",
+      "Engineered low-latency real-time systems with WebRTC and Socket.io powering collaborative, multi-tenant platforms",
+      "Orchestrated Docker and Kubernetes microservices on AWS so the rendering engine and customer portals could scale independently",
+      "Optimized SSR, caching, and lazy-loading strategies across multi-tenant dashboards to maintain 60fps interactions under heavy data loads",
     ],
   },
   {
-    year: "16–",
-    period: "2016–19 · 3 yrs",
+    year: "20–",
+    period: "2020–22 · 2 yrs",
     current: false,
-    role: "Full-Stack Developer",
-    company: "Campus Automation · ACI Group · Shopify Apps",
+    role: "Software Engineer",
+    company: "Genesys Softwares · Dhaka, Bangladesh",
     points: [
-      "Built campus management system digitizing admissions, exams, payroll for 5000+ users",
-      "Replaced Excel-based enterprise forecasting with real-time FastAPI + React dashboards",
-      "Shipped 3 Shopify apps — product grouping, collection duplicator, memberships",
+      "Contributed to the Campus Automation ERP digitizing admissions, exams, payroll, and result publication for 20,000+ users across three universities",
+      "Built production features end-to-end across Nuxt.js, Node.js, MongoDB, and Nginx-balanced deployments",
+      "Engineered a custom Rich Text Editor with real-time sanitization and LaTeX/formula support for dynamic academic content",
+    ],
+  },
+  {
+    year: "18–",
+    period: "2018–20 · 2 yrs",
+    current: false,
+    role: "Software Engineer | Web Trainer",
+    company: "Utshab Technologies · Jashore, Bangladesh",
+    points: [
+      "Architected an Inventory Management platform with real-time tracking, multi-warehouse synchronization, and optimized database performance under high transaction volumes",
+      "Led full-stack development of the Just Diary mobile app and admin panel from concept to production",
+      "Served as a technical trainer and mentor, translating complex engineering concepts into practical, industry-ready curriculum",
     ],
   },
 ];
@@ -99,7 +111,7 @@ export default function Experience() {
               lineHeight: 1.7,
             }}
           >
-            8 years across SaaS, enterprise &amp; startup environments
+            8 years across SaaS architecture, enterprise systems &amp; engineering mentorship
           </div>
         </div>
 

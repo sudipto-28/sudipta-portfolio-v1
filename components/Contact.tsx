@@ -1,11 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 import {
   FORM_SERVICE_OPTIONS,
   RESUME_URL,
   SERVICE_SELECT_EVENT,
 } from "@/components/siteData";
+
+const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
 
 export default function Contact() {
   return (
@@ -316,8 +319,13 @@ function InfoRow({
 }
 
 function ContactForm() {
-  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
+    "idle"
+  );
+  const [errorMessage, setErrorMessage] = useState("");
   const [selectedService, setSelectedService] = useState("");
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const recaptchaRef = useRef<ReCAPTCHA | null>(null);
 
   useEffect(() => {
     const syncServiceFromUrl = () => {
@@ -359,15 +367,60 @@ function ContactForm() {
     };
   }, []);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    if (!captchaToken) {
+      setStatus("error");
+      setErrorMessage("Please complete the reCAPTCHA challenge.");
+      return;
+    }
+
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const payload = {
+      name: String(data.get("name") ?? ""),
+      email: String(data.get("email") ?? ""),
+      company: String(data.get("company") ?? ""),
+      service: String(data.get("service") ?? ""),
+      budget: String(data.get("budget") ?? ""),
+      message: String(data.get("message") ?? ""),
+      honeypot: String(data.get("website") ?? ""),
+      recaptchaToken: captchaToken,
+    };
+
     setStatus("sending");
-    setTimeout(() => {
+    setErrorMessage("");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const body = (await res.json().catch(() => ({}))) as {
+          error?: string;
+          detail?: string;
+        };
+        throw new Error(body.error || `Request failed (${res.status})`);
+      }
+
       setStatus("sent");
       setSelectedService("");
-      (e.target as HTMLFormElement).reset();
+      setCaptchaToken(null);
+      recaptchaRef.current?.reset();
+      form.reset();
       setTimeout(() => setStatus("idle"), 5000);
-    }, 1200);
+    } catch (err) {
+      setStatus("error");
+      setErrorMessage(
+        err instanceof Error ? err.message : "Something went wrong. Try again."
+      );
+      recaptchaRef.current?.reset();
+      setCaptchaToken(null);
+    }
   }
 
   const inputStyle: React.CSSProperties = {
@@ -475,11 +528,61 @@ function ContactForm() {
         />
       </div>
 
+      {/* Honeypot — must stay empty. Hidden from humans + assistive tech. */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          left: "-9999px",
+          width: 1,
+          height: 1,
+          overflow: "hidden",
+        }}
+      >
+        <label>
+          Website
+          <input
+            type="text"
+            name="website"
+            tabIndex={-1}
+            autoComplete="off"
+            defaultValue=""
+          />
+        </label>
+      </div>
+
+      {RECAPTCHA_SITE_KEY ? (
+        <div style={{ marginTop: 18 }}>
+          <ReCAPTCHA
+            ref={recaptchaRef}
+            sitekey={RECAPTCHA_SITE_KEY}
+            onChange={(token) => setCaptchaToken(token)}
+            onExpired={() => setCaptchaToken(null)}
+            onErrored={() => setCaptchaToken(null)}
+          />
+        </div>
+      ) : (
+        <div
+          style={{
+            marginTop: 18,
+            fontFamily: "var(--font-mono), monospace",
+            fontSize: 11,
+            color: "#B45309",
+            letterSpacing: "0.06em",
+            padding: 12,
+            border: "1px solid rgba(180,83,9,0.25)",
+            background: "rgba(180,83,9,0.06)",
+          }}
+        >
+          reCAPTCHA site key missing — set NEXT_PUBLIC_RECAPTCHA_SITE_KEY in .env.local.
+        </div>
+      )}
+
       <button
         type="submit"
         disabled={status === "sending"}
         style={{
-          marginTop: 1,
+          marginTop: 14,
           background: "var(--ink)",
           color: "var(--cream)",
           fontFamily: "var(--font-sans), sans-serif",
@@ -492,6 +595,7 @@ function ContactForm() {
           cursor: "none",
           transition: "background 0.2s",
           width: "100%",
+          opacity: status === "sending" ? 0.7 : 1,
         }}
         onMouseEnter={(e) =>
           ((e.currentTarget as HTMLButtonElement).style.background = "var(--gold)")
@@ -506,6 +610,7 @@ function ContactForm() {
       {status === "sent" && (
         <div
           style={{
+            marginTop: 14,
             fontFamily: "var(--font-mono), monospace",
             fontSize: 11,
             color: "var(--gold)",
@@ -517,6 +622,24 @@ function ContactForm() {
           }}
         >
           Message sent — I&apos;ll respond within 24 hours.
+        </div>
+      )}
+
+      {status === "error" && errorMessage && (
+        <div
+          style={{
+            marginTop: 14,
+            fontFamily: "var(--font-mono), monospace",
+            fontSize: 11,
+            color: "#B91C1C",
+            letterSpacing: "0.06em",
+            textAlign: "center",
+            padding: 14,
+            border: "1px solid rgba(185,28,28,0.25)",
+            background: "rgba(185,28,28,0.06)",
+          }}
+        >
+          {errorMessage}
         </div>
       )}
     </form>
