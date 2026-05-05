@@ -1,7 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
+import { useEffect, useState } from "react";
+import {
+  GoogleReCaptchaProvider,
+  useGoogleReCaptcha,
+} from "react-google-recaptcha-v3";
 import {
   FORM_SERVICE_OPTIONS,
   RESUME_URL,
@@ -275,7 +278,16 @@ export default function Contact() {
 
           {/* Right: Form */}
           <div className="contact-right" style={{ padding: "64px 0 80px 56px" }}>
-            <ContactForm />
+            {RECAPTCHA_SITE_KEY ? (
+              <GoogleReCaptchaProvider
+                reCaptchaKey={RECAPTCHA_SITE_KEY}
+                scriptProps={{ async: true, defer: true }}
+              >
+                <ContactForm />
+              </GoogleReCaptchaProvider>
+            ) : (
+              <ContactForm />
+            )}
           </div>
         </div>
       </div>
@@ -319,13 +331,12 @@ function InfoRow({
 }
 
 function ContactForm() {
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
     "idle"
   );
   const [errorMessage, setErrorMessage] = useState("");
   const [selectedService, setSelectedService] = useState("");
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
-  const recaptchaRef = useRef<ReCAPTCHA | null>(null);
 
   useEffect(() => {
     const syncServiceFromUrl = () => {
@@ -370,13 +381,25 @@ function ContactForm() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (!captchaToken) {
+    if (!executeRecaptcha) {
       setStatus("error");
-      setErrorMessage("Please complete the reCAPTCHA challenge.");
+      setErrorMessage("reCAPTCHA is still loading — please try again in a moment.");
       return;
     }
 
     const form = e.currentTarget;
+    setStatus("sending");
+    setErrorMessage("");
+
+    let recaptchaToken: string;
+    try {
+      recaptchaToken = await executeRecaptcha("contact");
+    } catch {
+      setStatus("error");
+      setErrorMessage("Could not obtain reCAPTCHA token. Try again.");
+      return;
+    }
+
     const data = new FormData(form);
     const payload = {
       name: String(data.get("name") ?? ""),
@@ -386,11 +409,8 @@ function ContactForm() {
       budget: String(data.get("budget") ?? ""),
       message: String(data.get("message") ?? ""),
       honeypot: String(data.get("website") ?? ""),
-      recaptchaToken: captchaToken,
+      recaptchaToken,
     };
-
-    setStatus("sending");
-    setErrorMessage("");
 
     try {
       const res = await fetch("/api/contact", {
@@ -409,8 +429,6 @@ function ContactForm() {
 
       setStatus("sent");
       setSelectedService("");
-      setCaptchaToken(null);
-      recaptchaRef.current?.reset();
       form.reset();
       setTimeout(() => setStatus("idle"), 5000);
     } catch (err) {
@@ -418,8 +436,6 @@ function ContactForm() {
       setErrorMessage(
         err instanceof Error ? err.message : "Something went wrong. Try again."
       );
-      recaptchaRef.current?.reset();
-      setCaptchaToken(null);
     }
   }
 
@@ -552,14 +568,35 @@ function ContactForm() {
       </div>
 
       {RECAPTCHA_SITE_KEY ? (
-        <div style={{ marginTop: 18 }}>
-          <ReCAPTCHA
-            ref={recaptchaRef}
-            sitekey={RECAPTCHA_SITE_KEY}
-            onChange={(token) => setCaptchaToken(token)}
-            onExpired={() => setCaptchaToken(null)}
-            onErrored={() => setCaptchaToken(null)}
-          />
+        <div
+          style={{
+            marginTop: 18,
+            fontFamily: "var(--font-mono), monospace",
+            fontSize: 10,
+            color: "var(--ink3)",
+            letterSpacing: "0.04em",
+            lineHeight: 1.6,
+          }}
+        >
+          Protected by reCAPTCHA — Google&apos;s{" "}
+          <a
+            href="https://policies.google.com/privacy"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "var(--ink2)", textDecoration: "underline" }}
+          >
+            Privacy Policy
+          </a>{" "}
+          and{" "}
+          <a
+            href="https://policies.google.com/terms"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "var(--ink2)", textDecoration: "underline" }}
+          >
+            Terms
+          </a>{" "}
+          apply.
         </div>
       ) : (
         <div

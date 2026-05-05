@@ -22,6 +22,9 @@ function escapeHtml(value: string) {
     .replace(/'/g, "&#39;");
 }
 
+const RECAPTCHA_MIN_SCORE = 0.5;
+const RECAPTCHA_EXPECTED_ACTION = "contact";
+
 async function verifyRecaptcha(token: string, remoteIp?: string) {
   const secret = process.env.RECAPTCHA_SECRET_KEY;
   if (!secret) {
@@ -41,12 +44,26 @@ async function verifyRecaptcha(token: string, remoteIp?: string) {
     return { ok: false, reason: `reCAPTCHA verify HTTP ${res.status}` };
   }
 
-  const data = (await res.json()) as { success: boolean; "error-codes"?: string[] };
+  const data = (await res.json()) as {
+    success: boolean;
+    score?: number;
+    action?: string;
+    "error-codes"?: string[];
+  };
+
   if (!data.success) {
     return {
       ok: false,
       reason: `reCAPTCHA rejected: ${(data["error-codes"] ?? []).join(", ") || "unknown"}`,
     };
+  }
+
+  // v3 only — older v2 keys won't return action/score, so skip these checks if missing.
+  if (data.action !== undefined && data.action !== RECAPTCHA_EXPECTED_ACTION) {
+    return { ok: false, reason: `Unexpected reCAPTCHA action: ${data.action}` };
+  }
+  if (data.score !== undefined && data.score < RECAPTCHA_MIN_SCORE) {
+    return { ok: false, reason: `Low reCAPTCHA score: ${data.score}` };
   }
 
   return { ok: true as const };
